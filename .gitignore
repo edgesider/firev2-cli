@@ -1,3 +1,5 @@
+firev2.json
+
 .idea
-venv/
+venv*
 __pycache__
