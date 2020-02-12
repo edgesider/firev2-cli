@@ -10,12 +10,12 @@ def main():
     subparsers = parser.add_subparsers(
         required=True, dest='command')
 
-    from cli import (subscription_add_parser,
-                     node_add_parser,
-                     inbound_add_parser,
-                     routing_add_parser,
-                     v2_add_parser,
-                     log_add_parser)
+    from .cli import (subscription_add_parser,
+                      node_add_parser,
+                      inbound_add_parser,
+                      routing_add_parser,
+                      v2_add_parser,
+                      log_add_parser)
 
     subscription_add_parser(subparsers)
     node_add_parser(subparsers)
@@ -29,28 +29,26 @@ def main():
     from firev2 import config
 
     if args.config is not None:
-        config.load_from_file(args.config)
-    else:
         config.auto_load()
 
     command = args.command
     if command == 'subscription':
-        from cli import process_subscription
+        from .cli import process_subscription
         process_subscription(args)
     elif command == 'node':
-        from cli import process_node
+        from .cli import process_node
         process_node(args)
     elif command == 'inbound':
-        from cli import process_inbound
+        from .cli import process_inbound
         process_inbound(args)
     elif command == 'routing':
-        from cli import process_routing
+        from .cli import process_routing
         process_routing(args)
     elif command == 'v2':
-        from cli import process_v2
+        from .cli import process_v2
         process_v2(args)
     elif command == 'log':
-        from cli import process_log
+        from .cli import process_log
         process_log(args)
 
 

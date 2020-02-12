@@ -3,3 +3,7 @@ firev2.json
 .idea
 venv*
 __pycache__
+
+build/
+dist/
+firev2_cli.egg-info/
