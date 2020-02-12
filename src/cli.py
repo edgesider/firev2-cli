@@ -181,6 +181,8 @@ def v2_add_parser(subparsers):
     cmd_stop = cmds.add_parser('stop', help='stop v2ray process')
     cmd_restart = cmds.add_parser('restart', help='restart v2ray process')
 
+    cmd_status = cmds.add_parser('status', help='show monitor status')
+
     cmd_dump_config = cmds.add_parser('dump-config',
                                       help='dump v2ray config in json format')
     cmd_dump_config.add_argument('-r', '--routing', required=True,
@@ -205,6 +207,11 @@ def process_v2(args):
         v2_mgr.stop()
     elif cmd == 'restart':
         v2_mgr.restart()
+    elif cmd == 'status':
+        if v2_mgr.is_running():
+            print("running")
+        else:
+            print('stopped')
     elif cmd == 'dump-config':
         routing_name = args.routing
         routing: Routing = rm.get_by_name(routing_name)
@@ -250,6 +257,7 @@ def process_log(args):
         fcntl.fcntl(fp.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
         eof = False
         while True:
+            # TODO remove select()
             rfds, _, _ = select.select([fp], [], [])
             assert len(rfds) == 1
             rfd: io.FileIO = rfds[0]
